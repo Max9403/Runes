@@ -20,6 +20,7 @@ build/
 eclipse/crash-reports
 eclipse/logs
 eclipse/resourcepacks
+eclipse/saves
 
 # Ignore Gradle GUI config
 gradle-app.setting
