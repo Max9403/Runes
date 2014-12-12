@@ -31,14 +31,16 @@ public class MainMod {
 
     public static final CopyOnWriteArrayList<RuneWrapper> RUNES = new CopyOnWriteArrayList<RuneWrapper>();
 
-    public static Block rune = new Rune();
+    public static Block rune;
 
-    public static Item chisel = new RuneChisel();
+    public static Item chisel;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        RUNES.add(new CodeRune("Harvest"));
-        RUNES.add(new CodeRune("Test"));
+        RUNES.add(new CodeRune("Harvest", "harvest", MODID + ":harvest"));
+        RUNES.add(new CodeRune("Test", "test", MODID + ":test"));
+        rune = new Rune();
+        chisel = new RuneChisel();
         GameRegistry.registerBlock(rune, RuneItem.class, rune.getUnlocalizedName().substring(5));
         GameRegistry.registerItem(chisel, "runeChisel");
     }

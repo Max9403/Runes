@@ -7,4 +7,6 @@ public interface RuneWrapper {
     String getName();
 
     String getResourceName();
+
+    String getTextureName();
 }

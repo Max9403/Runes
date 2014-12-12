@@ -7,14 +7,20 @@ public class CodeRune implements RuneWrapper {
 
     private String name;
     private String resourceName;
+    private String textureName;
 
     public CodeRune(String name) {
         this(name, name.toLowerCase());
     }
 
     public CodeRune(String name, String resourceName) {
+        this(name, resourceName, resourceName);
+    }
+
+    public CodeRune(String name, String resourceName, String textureName) {
         this.name = name;
         this.resourceName = resourceName;
+        this.textureName = textureName;
     }
 
     @Override
@@ -25,5 +31,10 @@ public class CodeRune implements RuneWrapper {
     @Override
     public String getResourceName() {
         return resourceName;
+    }
+
+    @Override
+    public String getTextureName() {
+        return textureName;
     }
 }

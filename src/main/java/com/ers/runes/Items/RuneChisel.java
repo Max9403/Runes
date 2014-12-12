@@ -1,7 +1,9 @@
 package com.ers.runes.Items;
 
 import com.ers.runes.MainMod;
+import com.ers.runes.utilities.Util;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,22 +20,29 @@ public class RuneChisel extends Item {
     public RuneChisel() {
         setMaxStackSize(1);
         setUnlocalizedName("runeChisel");
+        setTextureName(MainMod.MODID + ":runeChisel");
         setCreativeTab(MainMod.runeTab);
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 
         if (itemStack.stackTagCompound == null) {
             itemStack.stackTagCompound = new NBTTagCompound();
-            itemStack.stackTagCompound.setInteger("current", -1);
+            itemStack.stackTagCompound.setInteger("current", 0);
         }
-        if ((Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) && !world.isRemote) {
+        if ((Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
             itemStack.stackTagCompound.setInteger("current", itemStack.stackTagCompound.getInteger("current") == MainMod.RUNES.size() - 1 ? 0 : itemStack.stackTagCompound.getInteger("current") + 1);
-            return true;
         } else {
-            return false;
+            if(side == Util.BlockSide.Top.value) {
+                if(world.getBlock(x, y, z) == Blocks.stone && world.isAirBlock(x, y + 1, z) && !world.isRemote) {
+                    world.setBlock(x, y + 1, z, MainMod.rune, itemStack.stackTagCompound.getInteger("current"), 3);
+                }
+            } else {
+                return false;
+            }
         }
+        return true;
     }
 
     @Override
