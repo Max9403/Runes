@@ -1,16 +1,16 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": " runes",
+  "name": "Runes",
+  "description": "Adding some runic magic to minecraft.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Max9403"],
+  "credits": "The Forge and FML guys, for making forge and FML",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": ["CodeChickenCore" , "ForgeMultipart"]
 }
 ]

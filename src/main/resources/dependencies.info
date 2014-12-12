@@ -1,0 +1,6 @@
+{
+	"repo": "http://files.minecraftforge.net/maven/codechicken/ForgeMultipart/1.7.10-1.1.0.314/",
+	"file": "ForgeMultipart-1.7.10-1.1.0.314-universal.jar",
+	"dev": "ForgeMultipart-1.7.10-1.1.0.314-dev.jar",
+	"class": "codechicken.multipart.MultipartMod"
+}
