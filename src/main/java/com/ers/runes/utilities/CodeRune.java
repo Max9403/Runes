@@ -37,4 +37,9 @@ public class CodeRune implements RuneWrapper {
     public String getTextureName() {
         return textureName;
     }
+
+    @Override
+    public int getRenderColour() {
+        return 0x000000;
+    }
 }

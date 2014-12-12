@@ -2,6 +2,8 @@ package com.ers.runes.blocks;
 
 import com.ers.runes.MainMod;
 import com.ers.runes.utilities.RuneWrapper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,6 +12,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.ColorizerGrass;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import scala.Int;
 
@@ -78,5 +82,33 @@ public class Rune extends Block{
         for (int blocks = 0; blocks <= MainMod.RUNES.size(); blocks++) {
             list.add(new ItemStack(item, 1, blocks));
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getBlockColor()
+    {
+        return 0xFFFFFF;
+    }
+
+    /**
+     * Returns the color this block should be rendered. Used by leaves.
+     */
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderColor(int meta)
+    {
+        return MainMod.RUNES.get(meta).getRenderColour();
+    }
+
+    /**
+     * Returns a integer with hex for 0xrrggbb with this color multiplied against the blocks color. Note only called
+     * when first determining what to render.
+     */
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int colorMultiplier(IBlockAccess blockAccess, int x, int y, int z)
+    {
+        return 0x464646;
     }
 }

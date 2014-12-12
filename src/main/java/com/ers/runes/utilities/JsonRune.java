@@ -38,4 +38,9 @@ public class JsonRune implements RuneWrapper {
     public String getTextureName() {
         return textureName;
     }
+
+    @Override
+    public int getRenderColour() {
+        return 0xFFFFFF;
+    }
 }

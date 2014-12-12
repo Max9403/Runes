@@ -9,4 +9,6 @@ public interface RuneWrapper {
     String getResourceName();
 
     String getTextureName();
+
+    int getRenderColour();
 }

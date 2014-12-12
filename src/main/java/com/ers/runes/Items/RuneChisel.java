@@ -60,7 +60,6 @@ public class RuneChisel extends Item {
             itemStack.stackTagCompound.setInteger("current", 0);
         }
         list.add("Current run: " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName());
-
     }
 
     @Override
