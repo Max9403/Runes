@@ -17,6 +17,9 @@ hs_err_pid*
 ### Gradle template
 .gradle
 build/
+eclipse/crash-reports
+eclipse/logs
+eclipse/resourcepacks
 
 # Ignore Gradle GUI config
 gradle-app.setting
