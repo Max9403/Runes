@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
@@ -50,6 +51,15 @@ public class RuneChisel extends Item {
         super.onCreated(itemStack, world, player);
         itemStack.stackTagCompound = new NBTTagCompound();
         itemStack.stackTagCompound.setInteger("current", 0);
+    }
+
+    public String getItemStackDisplayName(ItemStack itemStack)
+    {
+        if (itemStack.stackTagCompound == null) {
+            itemStack.stackTagCompound = new NBTTagCompound();
+            itemStack.stackTagCompound.setInteger("current", 0);
+        }
+        return StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(itemStack) + ".name").trim() + ": " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName().trim();
     }
 
     @Override
