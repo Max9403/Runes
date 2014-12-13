@@ -38,6 +38,21 @@ public class MainMod {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         RUNES.add(new CodeRune("Harvest", "harvest", MODID + ":harvest"));
+        RUNES.add(new CodeRune("Growth", "growth", MODID + ":growth"));
+        RUNES.add(new CodeRune("Crafting", "crafting", MODID + ":crafting"));
+        RUNES.add(new CodeRune("Movement", "movement", MODID + ":movement"));
+        RUNES.add(new CodeRune("Blocks", "blocks", MODID + ":blocks"));
+        RUNES.add(new CodeRune("Fluids", "fluids", MODID + ":fluids"));
+        RUNES.add(new CodeRune("Protection", "protection", MODID + ":protection"));
+        RUNES.add(new CodeRune("Enhancement", "enhancement", MODID + ":enhancement"));
+        RUNES.add(new CodeRune("Life", "life", MODID + ":life"));
+        RUNES.add(new CodeRune("Death", "death", MODID + ":death"));
+        RUNES.add(new CodeRune("Experience", "experience", MODID + ":experience"));
+        RUNES.add(new CodeRune("Heat", "heat", MODID + ":heat"));
+        RUNES.add(new CodeRune("Placing", "placing", MODID + ":placing"));
+        RUNES.add(new CodeRune("Gathering", "gathering", MODID + ":gathering"));
+        RUNES.add(new CodeRune("Translocation", "translocation", MODID + ":translocation"));
+        RUNES.add(new CodeRune("Light", "light", MODID + ":light"));
         RUNES.add(new CodeRune("Test", "test", MODID + ":test"));
         rune = new Rune();
         chisel = new RuneChisel();

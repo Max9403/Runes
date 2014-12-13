@@ -7,6 +7,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
@@ -34,6 +36,9 @@ public class RuneChisel extends Item {
         }
         if ((Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
             itemStack.stackTagCompound.setInteger("current", itemStack.stackTagCompound.getInteger("current") == MainMod.RUNES.size() - 1 ? 0 : itemStack.stackTagCompound.getInteger("current") + 1);
+            if(!world.isRemote) {
+                player.addChatMessage(new ChatComponentText("Rune of " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName()));
+            }
         } else {
             if(side == Util.BlockSide.Top.value) {
                 if(world.getBlock(x, y, z) == Blocks.stone && world.isAirBlock(x, y + 1, z) && !world.isRemote) {
@@ -69,7 +74,7 @@ public class RuneChisel extends Item {
             itemStack.stackTagCompound = new NBTTagCompound();
             itemStack.stackTagCompound.setInteger("current", 0);
         }
-        list.add("Current run: " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName());
+        list.add("Current rune: " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName());
     }
 
     @Override
