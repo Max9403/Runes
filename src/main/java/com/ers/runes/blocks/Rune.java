@@ -56,9 +56,6 @@ public class Rune extends Block implements ITileEntityProvider{
         if(world.getBlock(x, y - 1, z) != Blocks.stone) {
             world.setBlockToAir(x, y, z);
         }
-        if(block == MainMod.rune) {
-            
-        }
     }
 
     @Override

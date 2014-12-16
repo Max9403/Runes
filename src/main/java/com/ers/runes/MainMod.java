@@ -66,7 +66,7 @@ public class MainMod {
             public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
                 List entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y - 1, z, x + size, 255, z + size));
                 for(Object entity : entities) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.heal.getId(), 20, 1));
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 20, 0));
                 }
             }
         });
