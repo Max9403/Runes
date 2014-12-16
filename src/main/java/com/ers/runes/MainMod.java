@@ -17,9 +17,18 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -52,7 +61,15 @@ public class MainMod {
         RUNES.add(new CodeRune("Fluids", "fluids", new ResourceLocation(MODID + ":textures/blocks/fluids.png")));
         RUNES.add(new CodeRune("Protection", "protection", new ResourceLocation(MODID + ":textures/blocks/protection.png")));
         RUNES.add(new CodeRune("Enhancement", "enhancement", new ResourceLocation(MODID + ":textures/blocks/enhancement.png")));
-        RUNES.add(new CodeRune("Life", "life", new ResourceLocation(MODID + ":textures/blocks/life.png")));
+        RUNES.add(new CodeRune("Life", "life", new ResourceLocation(MODID + ":textures/blocks/life.png")) {
+            @Override
+            public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
+                List entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y - 1, z, x + size, 255, z + size));
+                for(Object entity : entities) {
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.heal.getId(), 20, 1));
+                }
+            }
+        });
         RUNES.add(new CodeRune("Harm", "harm", new ResourceLocation(MODID + ":textures/blocks/harm.png")));
         RUNES.add(new CodeRune("Experience", "experience", new ResourceLocation(MODID + ":textures/blocks/experience.png")));
         RUNES.add(new CodeRune("Heat", "heat", new ResourceLocation(MODID + ":textures/blocks/heat.png")));
