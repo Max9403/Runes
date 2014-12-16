@@ -1,6 +1,9 @@
 package com.ers.runes.utilities;
 
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+
+import java.util.Random;
 
 /**
  * Created by Benjamin on 2014-12-12.
@@ -32,9 +35,12 @@ public class CodeRune implements RuneWrapper {
         return textureLocation;
     }
 
-
     @Override
     public int getRenderColour() {
         return 0x000000;
+    }
+
+    @Override
+    public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
     }
 }

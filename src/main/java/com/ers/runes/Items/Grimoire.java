@@ -25,8 +25,7 @@ public class Grimoire extends Item {
             if(world.isAirBlock(x, y, z + 1) && world.isAirBlock(x, y, z - 1) && world.isAirBlock(x + 1, y, z) &&  world.isAirBlock(x - 1, y, z)) {
                 validRune = true;
                 ((RuneTileEntity) world.getTileEntity(x, y, z)).controller = true;
-                ((RuneTileEntity) world.getTileEntity(x, y, z )).width = 0;
-                ((RuneTileEntity) world.getTileEntity(x, y, z)).height = 0;
+                ((RuneTileEntity) world.getTileEntity(x, y, z )).size = 0;
                 world.getTileEntity(x, y, z).markDirty();
             } else {
                 int width1 = 0, width2 = 0, height1 = 0, height2 = 0;
@@ -92,11 +91,10 @@ public class Grimoire extends Item {
                 validRune = width1 != 0 && width2 != 0 && height1 != 0 && height2 != 0 && width1 == width2 && width2 == height1 && height1 == height2;
                 if (validRune) {
                     ((RuneTileEntity) world.getTileEntity(x - offsetX, y, z - offsetZ)).controller = true;
-                    ((RuneTileEntity) world.getTileEntity(x - offsetX, y, z - offsetZ)).width = width1;
-                    ((RuneTileEntity) world.getTileEntity(x - offsetX, y, z - offsetZ)).height = height1;
+                    ((RuneTileEntity) world.getTileEntity(x - offsetX, y, z - offsetZ)).size = width1;
                     world.getTileEntity(x - offsetX, y, z - offsetZ).markDirty();
                 }
-                System.out.println("Runes can form: " + validRune + "{ " + width1 + ", " + width2 + ", " + height1 + ", " + height2 + ", " + offsetZ + ", " + offsetX +"}");
+                System.out.println("Runes can form: " + validRune + "{ " + width1 + ", " + width2 + ", " + height1 + ", " + height2 + ", " + offsetZ + ", " + offsetX +", " + width1 * 4 + "}");
             }
 
         }

@@ -1,5 +1,6 @@
 package com.ers.runes.tileentities;
 
+import com.ers.runes.MainMod;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -14,8 +15,8 @@ public class RuneTileEntity extends TileEntity{
     public String owner = "FakePlayer";
     public boolean controller = false;
     public boolean active = false;
-    public int width = -1;
-    public int height = -1;
+    public int size = -1;
+    public int current = 0;
 
     @Override
     public void writeToNBT(NBTTagCompound par1)
@@ -25,8 +26,8 @@ public class RuneTileEntity extends TileEntity{
         par1.setString("owner", owner);
         par1.setBoolean("controller", controller);
         par1.setBoolean("active", active);
-        par1.setInteger("width", width);
-        par1.setInteger("height", height);
+        par1.setInteger("size", size);
+        par1.setInteger("current", current);
     }
 
     @Override
@@ -37,8 +38,8 @@ public class RuneTileEntity extends TileEntity{
         this.owner = par1.getString("owner");
         this.controller = par1.getBoolean("controller");
         this.active = par1.getBoolean("active");
-        this.width = par1.getInteger("width");
-        this.height = par1.getInteger("height");
+        this.size = par1.getInteger("size");
+        this.current = par1.getInteger("current");
     }
 
     @Override
@@ -49,8 +50,8 @@ public class RuneTileEntity extends TileEntity{
         syncData.setString("owner", owner);
         syncData.setBoolean("controller", controller);
         syncData.setBoolean("active", active);
-        syncData.setInteger("width", width);
-        syncData.setInteger("height", height);
+        syncData.setInteger("size", size);
+        syncData.setInteger("current", current);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
     }
 
@@ -62,7 +63,37 @@ public class RuneTileEntity extends TileEntity{
         this.owner = content.getString("owner");
         this.controller = content.getBoolean("controller");
         this.active = content.getBoolean("active");
-        this.width = content.getInteger("width");
-        this.height = content.getInteger("height");
+        this.size = content.getInteger("size");
+        this.current = content.getInteger("current");
+    }
+
+    @Override
+    public void updateEntity() {
+        if(controller) {
+            if(current > size * 4) {
+                current = 0;
+            }
+            int xChange = 0, zChange = 0;
+            if (current > size) {
+                if(current > size * 2 && current < size * 3) {
+                    xChange =  current - size * 2;
+                } else {
+                    xChange = size;
+                }
+            } else {
+                xChange = current;
+            }
+            if(current > size) {
+                if (current > 3 * size) {
+                    zChange = current - 3 * size;
+                } else if (current < 2 * size) {
+                    zChange = current - size;
+                } else {
+                    zChange = size;
+                }
+            }
+            MainMod.RUNES.get(((RuneTileEntity)worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
+            current++;
+        }
     }
 }
