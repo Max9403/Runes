@@ -69,21 +69,21 @@ public class RuneTileEntity extends TileEntity{
 
     @Override
     public void updateEntity() {
-        if(controller) {
-            if(current > size * 4) {
+        if(controller && active) {
+            if (current > size * 4) {
                 current = 0;
             }
             int xChange = 0, zChange = 0;
             if (current > size) {
-                if(current > size * 2 && current < size * 3) {
-                    xChange =  current - size * 2;
+                if (current > size * 2 && current < size * 3) {
+                    xChange = current - size * 2;
                 } else {
                     xChange = size;
                 }
             } else {
                 xChange = current;
             }
-            if(current > size) {
+            if (current > size) {
                 if (current > 3 * size) {
                     zChange = current - 3 * size;
                 } else if (current < 2 * size) {
@@ -92,7 +92,13 @@ public class RuneTileEntity extends TileEntity{
                     zChange = size;
                 }
             }
-            MainMod.RUNES.get(((RuneTileEntity)worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
+            try {
+
+                MainMod.RUNES.get(((RuneTileEntity) worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
+            } catch (Exception ex) {
+                controller = false;
+                active = false;
+            }
             current++;
         }
     }
