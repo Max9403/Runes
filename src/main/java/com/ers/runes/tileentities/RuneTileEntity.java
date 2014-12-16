@@ -14,6 +14,8 @@ public class RuneTileEntity extends TileEntity{
     public String owner = "FakePlayer";
     public boolean controller = false;
     public boolean active = false;
+    public int width = -1;
+    public int height = -1;
 
     @Override
     public void writeToNBT(NBTTagCompound par1)
@@ -23,6 +25,8 @@ public class RuneTileEntity extends TileEntity{
         par1.setString("owner", owner);
         par1.setBoolean("controller", controller);
         par1.setBoolean("active", active);
+        par1.setInteger("width", width);
+        par1.setInteger("height", height);
     }
 
     @Override
@@ -33,6 +37,8 @@ public class RuneTileEntity extends TileEntity{
         this.owner = par1.getString("owner");
         this.controller = par1.getBoolean("controller");
         this.active = par1.getBoolean("active");
+        this.width = par1.getInteger("width");
+        this.height = par1.getInteger("height");
     }
 
     @Override
@@ -43,6 +49,8 @@ public class RuneTileEntity extends TileEntity{
         syncData.setString("owner", owner);
         syncData.setBoolean("controller", controller);
         syncData.setBoolean("active", active);
+        syncData.setInteger("width", width);
+        syncData.setInteger("height", height);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
     }
 
@@ -54,5 +62,7 @@ public class RuneTileEntity extends TileEntity{
         this.owner = content.getString("owner");
         this.controller = content.getBoolean("controller");
         this.active = content.getBoolean("active");
+        this.width = content.getInteger("width");
+        this.height = content.getInteger("height");
     }
 }
