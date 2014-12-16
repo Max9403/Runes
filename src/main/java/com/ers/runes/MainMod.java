@@ -63,9 +63,9 @@ public class MainMod {
         RUNES.add(new CodeRune("Riches", "riches", new ResourceLocation(MODID + ":textures/blocks/riches.png")));
         RUNES.add(new CodeRune("Power", "power", new ResourceLocation(MODID + ":textures/blocks/power.png")));
         RUNES.add(new CodeRune("Energy", "energy", new ResourceLocation(MODID + ":textures/blocks/energy.png")));
-        RUNES.add(new CodeRune("Power", "power", new ResourceLocation(MODID + ":textures/blocks/power.png")));
         RUNES.add(new CodeRune("Crumbling", "crumbling", new ResourceLocation(MODID + ":textures/blocks/crumbling.png")));
-        RUNES.add(new CodeRune("Test", "test", new ResourceLocation(MODID + ":textures/blocks/test.png")));
+        RUNES.add(new CodeRune("Items", "items", new ResourceLocation(MODID + ":textures/blocks/items.png")));
+        RUNES.add(new CodeRune("Testing", "test", new ResourceLocation(MODID + ":textures/blocks/test.png")));
         System.out.println(RUNES.size() + " runes have been found");
         rune = new Rune();
         chisel = new RuneChisel();

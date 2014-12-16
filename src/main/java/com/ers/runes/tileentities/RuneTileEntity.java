@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
  * Created by Benjamin on 2014-12-15.
  */
 public class RuneTileEntity extends TileEntity{
-    public int runeType;
+    public int runeType = -1;
     @Override
     public void writeToNBT(NBTTagCompound par1)
     {
