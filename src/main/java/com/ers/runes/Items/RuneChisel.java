@@ -38,7 +38,6 @@ public class RuneChisel extends Item {
         }
         if ((Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
             itemStack.stackTagCompound.setInteger("current", itemStack.stackTagCompound.getInteger("current") == MainMod.RUNES.size() - 1 ? 0 : itemStack.stackTagCompound.getInteger("current") + 1);
-            System.out.println(itemStack.stackTagCompound.getInteger("current"));
             if(!world.isRemote) {
                 player.addChatMessage(new ChatComponentText("Rune of " + MainMod.RUNES.get(itemStack.stackTagCompound.getInteger("current")).getName()));
             }
@@ -49,7 +48,7 @@ public class RuneChisel extends Item {
                     TileEntity tileEntity = world.getTileEntity(x, y + 1, z);
                     if(tileEntity != null) {
                         ((RuneTileEntity)tileEntity).runeType = itemStack.stackTagCompound.getInteger("current");
-                        System.out.println(tileEntity + ": " + ((RuneTileEntity)tileEntity).runeType);
+                        ((RuneTileEntity)tileEntity).owner = EntityPlayer.func_146094_a(player.getGameProfile()).toString();
                     }
                 }
             } else {

@@ -11,11 +11,14 @@ import net.minecraft.tileentity.TileEntity;
  */
 public class RuneTileEntity extends TileEntity{
     public int runeType = -1;
+    public String owner = "FakePlayer";
+
     @Override
     public void writeToNBT(NBTTagCompound par1)
     {
         super.writeToNBT(par1);
         par1.setInteger("runeType", runeType);
+        par1.setString("owner", owner);
     }
 
     @Override
@@ -23,6 +26,7 @@ public class RuneTileEntity extends TileEntity{
     {
         super.readFromNBT(par1);
         this.runeType = par1.getInteger("runeType");
+        this.owner = par1.getString("owner");
     }
 
     @Override
@@ -30,12 +34,15 @@ public class RuneTileEntity extends TileEntity{
     {
         NBTTagCompound syncData = new NBTTagCompound();
         syncData.setInteger("runeType", runeType);
+        syncData.setString("owner", owner);
         return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, syncData);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
     {
-        runeType = pkt.func_148857_g().getInteger("runeType");
+        NBTTagCompound content = pkt.func_148857_g();
+        runeType = content.getInteger("runeType");
+        owner = content.getString("owner");
     }
 }
