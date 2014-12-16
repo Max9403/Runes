@@ -4,15 +4,20 @@ import com.ers.runes.Items.RuneChisel;
 import com.ers.runes.Items.RuneItem;
 import com.ers.runes.blocks.Rune;
 import com.ers.runes.extras.RuneCreativeTab;
+import com.ers.runes.tileentities.RuneTileEntity;
+import com.ers.runes.tileentities.renders.RuneTileRenderer;
 import com.ers.runes.utilities.CodeRune;
 import com.ers.runes.utilities.RuneWrapper;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -37,27 +42,38 @@ public class MainMod {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        RUNES.add(new CodeRune("Harvest", "harvest", MODID + ":harvest"));
-        RUNES.add(new CodeRune("Growth", "growth", MODID + ":growth"));
-        RUNES.add(new CodeRune("Crafting", "crafting", MODID + ":crafting"));
-        RUNES.add(new CodeRune("Movement", "movement", MODID + ":movement"));
-        RUNES.add(new CodeRune("Blocks", "blocks", MODID + ":blocks"));
-        RUNES.add(new CodeRune("Fluids", "fluids", MODID + ":fluids"));
-        RUNES.add(new CodeRune("Protection", "protection", MODID + ":protection"));
-        RUNES.add(new CodeRune("Enhancement", "enhancement", MODID + ":enhancement"));
-        RUNES.add(new CodeRune("Life", "life", MODID + ":life"));
-        RUNES.add(new CodeRune("Death", "death", MODID + ":death"));
-        RUNES.add(new CodeRune("Experience", "experience", MODID + ":experience"));
-        RUNES.add(new CodeRune("Heat", "heat", MODID + ":heat"));
-        RUNES.add(new CodeRune("Placing", "placing", MODID + ":placing"));
-        RUNES.add(new CodeRune("Gathering", "gathering", MODID + ":gathering"));
-        RUNES.add(new CodeRune("Translocation", "translocation", MODID + ":translocation"));
-        RUNES.add(new CodeRune("Light", "light", MODID + ":light"));
-        RUNES.add(new CodeRune("Test", "test", MODID + ":test"));
+        RUNES.add(new CodeRune("Harvest", "harvest", new ResourceLocation(MODID + ":textures/blocks/harvest.png")));
+        RUNES.add(new CodeRune("Growth", "growth", new ResourceLocation(MODID + ":textures/blocks/growth.png")));
+        RUNES.add(new CodeRune("Crafting", "crafting", new ResourceLocation(MODID + ":textures/blocks/crafting.png")));
+        RUNES.add(new CodeRune("Movement", "movement", new ResourceLocation(MODID + ":textures/blocks/movement.png")));
+        RUNES.add(new CodeRune("Blocks", "blocks", new ResourceLocation(MODID + ":textures/blocks/blocks.png")));
+        RUNES.add(new CodeRune("Fluids", "fluids", new ResourceLocation(MODID + ":textures/blocks/fluids.png")));
+        RUNES.add(new CodeRune("Protection", "protection", new ResourceLocation(MODID + ":textures/blocks/protection.png")));
+        RUNES.add(new CodeRune("Enhancement", "enhancement", new ResourceLocation(MODID + ":textures/blocks/enhancement.png")));
+        RUNES.add(new CodeRune("Life", "life", new ResourceLocation(MODID + ":textures/blocks/life.png")));
+        RUNES.add(new CodeRune("Harm", "harm", new ResourceLocation(MODID + ":textures/blocks/harm.png")));
+        RUNES.add(new CodeRune("Experience", "experience", new ResourceLocation(MODID + ":textures/blocks/experience.png")));
+        RUNES.add(new CodeRune("Heat", "heat", new ResourceLocation(MODID + ":textures/blocks/heat.png")));
+        RUNES.add(new CodeRune("Placing", "placing", new ResourceLocation(MODID + ":textures/blocks/placing.png")));
+        RUNES.add(new CodeRune("Gathering", "gathering", new ResourceLocation(MODID + ":textures/blocks/gathering.png")));
+        RUNES.add(new CodeRune("Translocation", "translocation", new ResourceLocation(MODID + ":textures/blocks/translocation.png")));
+        RUNES.add(new CodeRune("Light", "light", new ResourceLocation(MODID + ":textures/blocks/light.png")));
+        RUNES.add(new CodeRune("Compacting", "compacting", new ResourceLocation(MODID + ":textures/blocks/compacting.png")));
+        RUNES.add(new CodeRune("Mining", "mining", new ResourceLocation(MODID + ":textures/blocks/mining.png")));
+        RUNES.add(new CodeRune("Riches", "riches", new ResourceLocation(MODID + ":textures/blocks/riches.png")));
+        RUNES.add(new CodeRune("Power", "power", new ResourceLocation(MODID + ":textures/blocks/power.png")));
+        RUNES.add(new CodeRune("Energy", "energy", new ResourceLocation(MODID + ":textures/blocks/energy.png")));
+        RUNES.add(new CodeRune("Power", "power", new ResourceLocation(MODID + ":textures/blocks/power.png")));
+        RUNES.add(new CodeRune("Crumbling", "crumbling", new ResourceLocation(MODID + ":textures/blocks/crumbling.png")));
+        RUNES.add(new CodeRune("Test", "test", new ResourceLocation(MODID + ":textures/blocks/test.png")));
+        System.out.println(RUNES.size() + " runes have been found");
         rune = new Rune();
         chisel = new RuneChisel();
-        GameRegistry.registerBlock(rune, RuneItem.class, rune.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(rune, rune.getUnlocalizedName().substring(5));
         GameRegistry.registerItem(chisel, "runeChisel");
+        GameRegistry.registerTileEntity(RuneTileEntity.class, "Rune Tile Entity");
+        ClientRegistry.bindTileEntitySpecialRenderer(RuneTileEntity.class, new RuneTileRenderer());
+        FMLInterModComms.sendMessage("Waila", "register", "com.ers.runes.utilities.WailaProvider.wailaCallback");
     }
 
     @Mod.EventHandler

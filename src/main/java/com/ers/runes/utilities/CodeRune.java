@@ -1,5 +1,7 @@
 package com.ers.runes.utilities;
 
+import net.minecraft.util.ResourceLocation;
+
 /**
  * Created by Benjamin on 2014-12-12.
  */
@@ -7,20 +9,12 @@ public class CodeRune implements RuneWrapper {
 
     private String name;
     private String resourceName;
-    private String textureName;
+    private ResourceLocation textureLocation;
 
-    public CodeRune(String name) {
-        this(name, name.toLowerCase());
-    }
-
-    public CodeRune(String name, String resourceName) {
-        this(name, resourceName, resourceName);
-    }
-
-    public CodeRune(String name, String resourceName, String textureName) {
+    public CodeRune(String name, String resourceName, ResourceLocation textureLocation) {
         this.name = name;
         this.resourceName = resourceName;
-        this.textureName = textureName;
+        this.textureLocation = textureLocation;
     }
 
     @Override
@@ -34,9 +28,10 @@ public class CodeRune implements RuneWrapper {
     }
 
     @Override
-    public String getTextureName() {
-        return textureName;
+    public ResourceLocation getTextureLocation() {
+        return textureLocation;
     }
+
 
     @Override
     public int getRenderColour() {

@@ -1,5 +1,7 @@
 package com.ers.runes.utilities;
 
+import net.minecraft.util.ResourceLocation;
+
 /**
  * Created by Benjamin on 2014-12-12.
  */
@@ -7,20 +9,12 @@ public class JsonRune implements RuneWrapper {
 
     private String name;
     private String resourceName;
-    private String textureName;
+    private ResourceLocation resourceLocation;
 
-    public JsonRune(String name) {
-        this(name, name.toLowerCase());
-    }
-
-    public JsonRune(String name, String resourceName) {
-        this(name, resourceName, resourceName);
-    }
-
-    public JsonRune(String name, String resourceName, String textureName) {
+    public JsonRune(String name, String resourceName, ResourceLocation resourceLocation) {
         this.name = name;
         this.resourceName = resourceName;
-        this.textureName = textureName;
+        this.resourceLocation = resourceLocation;
     }
 
 
@@ -35,9 +29,10 @@ public class JsonRune implements RuneWrapper {
     }
 
     @Override
-    public String getTextureName() {
-        return textureName;
+    public ResourceLocation getTextureLocation() {
+        return resourceLocation;
     }
+
 
     @Override
     public int getRenderColour() {
