@@ -1,5 +1,6 @@
 package com.ers.runes;
 
+import com.ers.runes.Items.Grimoire;
 import com.ers.runes.Items.RuneChisel;
 import com.ers.runes.Items.RuneItem;
 import com.ers.runes.blocks.Rune;
@@ -39,6 +40,7 @@ public class MainMod {
     public static Block rune;
 
     public static Item chisel;
+    public static Item grimoire = new Grimoire();
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -71,6 +73,7 @@ public class MainMod {
         chisel = new RuneChisel();
         GameRegistry.registerBlock(rune, rune.getUnlocalizedName().substring(5));
         GameRegistry.registerItem(chisel, "runeChisel");
+        GameRegistry.registerItem(grimoire, "runeGrimoire");
         GameRegistry.registerTileEntity(RuneTileEntity.class, "Rune Tile Entity");
         ClientRegistry.bindTileEntitySpecialRenderer(RuneTileEntity.class, new RuneTileRenderer());
         FMLInterModComms.sendMessage("Waila", "register", "com.ers.runes.utilities.WailaProvider.wailaCallback");
