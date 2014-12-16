@@ -13,11 +13,17 @@ public class JsonRune implements RuneWrapper {
     private String name;
     private String resourceName;
     private ResourceLocation resourceLocation;
+    private int cost;
 
     public JsonRune(String name, String resourceName, ResourceLocation resourceLocation) {
         this.name = name;
         this.resourceName = resourceName;
         this.resourceLocation = resourceLocation;
+    }
+
+    public JsonRune(String name, String resourceName, ResourceLocation resourceLocation, int cost) {
+        this(name, resourceName, resourceLocation);
+        this.cost = cost;
     }
 
 
@@ -45,5 +51,10 @@ public class JsonRune implements RuneWrapper {
     @Override
     public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
 
+    }
+
+    @Override
+    public int getCost() {
+        return cost;
     }
 }

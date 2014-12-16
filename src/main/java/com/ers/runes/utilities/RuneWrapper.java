@@ -18,4 +18,6 @@ public interface RuneWrapper {
     int getRenderColour();
 
     void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size);
+
+    int getCost();
 }
