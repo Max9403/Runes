@@ -13,6 +13,7 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -85,7 +86,6 @@ public class MainMod {
         RUNES.add(new CodeRune("Crumbling", "crumbling", new ResourceLocation(MODID + ":textures/blocks/crumbling.png")));
         RUNES.add(new CodeRune("Items", "items", new ResourceLocation(MODID + ":textures/blocks/items.png")));
         RUNES.add(new CodeRune("Testing", "test", new ResourceLocation(MODID + ":textures/blocks/test.png")));
-        System.out.println(RUNES.size() + " runes have been found");
         rune = new Rune();
         chisel = new RuneChisel();
         GameRegistry.registerBlock(rune, rune.getUnlocalizedName().substring(5));
@@ -102,4 +102,9 @@ public class MainMod {
 
     }
 
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        System.out.println(RUNES.size() + " runes have been found");
+    }
 }

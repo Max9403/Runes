@@ -38,7 +38,6 @@ public class Rune extends Block implements ITileEntityProvider{
         setBlockBounds(0, 0, 0, 1, 0, 1);
         setStepSound(Block.soundTypeStone);
         setBlockName("rune");
-        setTickRandomly(true);
     }
 
     @Override
