@@ -4,12 +4,16 @@ import com.ers.runes.Items.Grimoire;
 import com.ers.runes.Items.RuneChisel;
 import com.ers.runes.Items.RuneItem;
 import com.ers.runes.blocks.Rune;
+import com.ers.runes.blocks.RuneiumPlayerChunk;
 import com.ers.runes.extras.RuneCreativeTab;
 import com.ers.runes.tileentities.RuneTileEntity;
+import com.ers.runes.tileentities.RuneiumGeneratorTileEntity;
+import com.ers.runes.tileentities.RuneiumPlayerChunkTileEntity;
 import com.ers.runes.tileentities.renders.RuneTileRenderer;
 import com.ers.runes.utilities.CodeRune;
 import com.ers.runes.utilities.RuneWrapper;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -28,9 +32,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
 /**
  * Created by Benjamin on 2014-12-12.
@@ -48,6 +54,7 @@ public class MainMod {
     public static final CopyOnWriteArrayList<RuneWrapper> RUNES = new CopyOnWriteArrayList<RuneWrapper>();
 
     public static Block rune;
+    public static Block playerRuneiumChunk = new RuneiumPlayerChunk();
 
     public static Item chisel;
     public static Item grimoire = new Grimoire();
@@ -89,9 +96,11 @@ public class MainMod {
         rune = new Rune();
         chisel = new RuneChisel();
         GameRegistry.registerBlock(rune, rune.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(playerRuneiumChunk, playerRuneiumChunk.getUnlocalizedName().substring(5));
         GameRegistry.registerItem(chisel, "runeChisel");
         GameRegistry.registerItem(grimoire, "runeGrimoire");
         GameRegistry.registerTileEntity(RuneTileEntity.class, "Rune Tile Entity");
+        GameRegistry.registerTileEntity(RuneiumPlayerChunkTileEntity.class, "Runeium Generator Tile Entity");
         ClientRegistry.bindTileEntitySpecialRenderer(RuneTileEntity.class, new RuneTileRenderer());
         FMLInterModComms.sendMessage("Waila", "register", "com.ers.runes.utilities.WailaProvider.wailaCallback");
     }
@@ -105,6 +114,6 @@ public class MainMod {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        System.out.println(RUNES.size() + " runes have been found");
+        FMLLog.getLogger().info(MarkerManager.getMarker(NAME), RUNES.size() + " runes have been found");
     }
 }

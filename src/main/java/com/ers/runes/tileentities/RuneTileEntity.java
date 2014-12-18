@@ -1,6 +1,8 @@
 package com.ers.runes.tileentities;
 
 import com.ers.runes.MainMod;
+import com.ers.runes.effects.particles.RuneActivationParticle;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -71,7 +73,7 @@ public class RuneTileEntity extends TileEntity{
     @Override
     public void updateEntity() {
         if(controller && active) {
-            if(counter < 20) {
+            if(counter < 40) {
                 counter++;
                 return;
             }
@@ -88,25 +90,25 @@ public class RuneTileEntity extends TileEntity{
                     } else {
                         xChange = size;
                     }
+                    if (current > 3 * size) {
+                        zChange = current - 3 * size;
+                    } else if (current < 2 * size) {
+                        zChange = current - size;
+                    } else {
+                        zChange = size;
+                    }
                 } else {
                 xChange = current;
             }
-            if (current > size) {
-                if (current > 3 * size) {
-                    zChange = current - 3 * size;
-                } else if (current < 2 * size) {
-                    zChange = current - size;
-                } else {
-                    zChange = size;
-                }
-            }
+
             try {
                 MainMod.RUNES.get(((RuneTileEntity) worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
             } catch (Exception ex) {
                 controller = false;
                 active = false;
             }
-            worldObj.spawnParticle("reddust", xCoord + xChange + 0.5D, yCoord, zCoord + zChange + 0.5D, 0.0D, 0.0D, 0.0D);
+
+            Minecraft.getMinecraft().effectRenderer.addEffect(new RuneActivationParticle(worldObj, xCoord + xChange + 0.5D, yCoord, zCoord + zChange + 0.5D, 0.0D, 0.0D, 0.0D));
             current++;
         }
     }
