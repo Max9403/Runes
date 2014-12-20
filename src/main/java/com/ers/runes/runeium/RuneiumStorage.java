@@ -5,6 +5,6 @@ package com.ers.runes.runeium;
  */
 public interface RuneiumStorage {
     int getStored();
-    void charge(int amount);
-    void discharge(int amount);
+    boolean charge(int amount);
+    boolean discharge(int amount);
 }

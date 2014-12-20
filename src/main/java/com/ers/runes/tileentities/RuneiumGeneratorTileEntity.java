@@ -50,13 +50,15 @@ public class RuneiumGeneratorTileEntity extends TileEntity implements RuneiumSto
     }
 
     @Override
-    public void charge(int amount) {
+    public boolean charge(int amount) {
         charge += amount;
+        return false;
     }
 
     @Override
-    public void discharge(int amount) {
+    public boolean discharge(int amount) {
         charge -= amount;
+        return false;
     }
 
     @Override

@@ -22,6 +22,13 @@ public class RuneiumPlayerChunkTileEntity extends TileEntity implements RuneiumS
     }
 
     @Override
+    public void updateEntity() {
+        if(charge <= 0) {
+            worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+        }
+    }
+
+    @Override
     public void readFromNBT(NBTTagCompound par1)
     {
         super.readFromNBT(par1);
@@ -49,16 +56,20 @@ public class RuneiumPlayerChunkTileEntity extends TileEntity implements RuneiumS
     }
 
     @Override
-    public void charge(int amount) {
+    public boolean charge(int amount) {
         if(amount > 0) {
             charge += amount;
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void discharge(int amount) {
-        if (amount < 0) {
-            charge += amount;
+    public boolean discharge(int amount) {
+        if (amount > 0) {
+            charge -= amount;
+            return true;
         }
+        return false;
     }
 }
