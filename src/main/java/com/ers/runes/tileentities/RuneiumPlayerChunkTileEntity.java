@@ -57,7 +57,7 @@ public class RuneiumPlayerChunkTileEntity extends TileEntity implements RuneiumS
 
     @Override
     public boolean charge(int amount) {
-        if(amount > 0) {
+        if(amount >= 0) {
             charge += amount;
             return true;
         }
@@ -66,7 +66,7 @@ public class RuneiumPlayerChunkTileEntity extends TileEntity implements RuneiumS
 
     @Override
     public boolean discharge(int amount) {
-        if (amount > 0) {
+        if (amount >= 0) {
             charge -= amount;
             return true;
         }

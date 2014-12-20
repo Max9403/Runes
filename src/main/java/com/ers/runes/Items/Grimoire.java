@@ -39,9 +39,13 @@ public class Grimoire extends Item {
                 if (world.isRemote) {
                     player.addChatMessage(new ChatComponentText("Started linkage"));
                 }
-                itemStack.stackTagCompound.setInteger("x", x);
-                itemStack.stackTagCompound.setInteger("Y", y);
-                itemStack.stackTagCompound.setInteger("z", z);
+                System.out.println(world.getTileEntity(x, y, z));
+                if(world.getTileEntity(x, y, z) instanceof RuneiumStorage) {
+
+                    itemStack.stackTagCompound.setInteger("x", x);
+                    itemStack.stackTagCompound.setInteger("y", y);
+                    itemStack.stackTagCompound.setInteger("z", z);
+                }
             }
             result = true;
         } else if (world.getBlock(x, y, z) == MainMod.rune) {
@@ -50,22 +54,40 @@ public class Grimoire extends Item {
             if (test != null && test.controller) {
                 if ((Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))) {
                     if (itemStack.stackTagCompound.hasKey("x")) {
-                        if (world.isRemote) {
-                            player.addChatMessage(new ChatComponentText("Energy linked"));
+                        if (test.attemptEnergyLink(itemStack.stackTagCompound.getInteger("x"), itemStack.stackTagCompound.getInteger("y"), itemStack.stackTagCompound.getInteger("z"))) {
+                            if (world.isRemote) {
+                                player.addChatMessage(new ChatComponentText("Energy linked"));
+                            }
+                            itemStack.stackTagCompound.removeTag("x");
+                            itemStack.stackTagCompound.removeTag("y");
+                            itemStack.stackTagCompound.removeTag("z");
+                            test.markDirty();
+                        } else {
+                            if (world.isRemote) {
+                                player.addChatMessage(new ChatComponentText("Failed to link"));
+                            }
                         }
-                        test.attemptEnergyLink(itemStack.stackTagCompound.getInteger("x"), itemStack.stackTagCompound.getInteger("y"), itemStack.stackTagCompound.getInteger("z"));
-                        itemStack.stackTagCompound.removeTag("x");
-                        itemStack.stackTagCompound.removeTag("y");
-                        itemStack.stackTagCompound.removeTag("z");
+
                         result = true;
                     }
 
                 } else {
                     test.active = !test.active;
+
+                    if (world.isRemote) {
+                        if (test.active) {
+                            player.addChatMessage(new ChatComponentText("Runes are active"));
+                        } else {
+                            player.addChatMessage(new ChatComponentText("Runes are not active"));
+                        }
+                    }
                     result = true;
                 }
             } else {
                 result = Util.attemptToActivate(world, x, y, z);
+                if (world.isRemote) {
+                    player.addChatMessage(new ChatComponentText("Runes are active"));
+                }
             }
         } else {
             if (side == Util.BlockSide.Top.value) {

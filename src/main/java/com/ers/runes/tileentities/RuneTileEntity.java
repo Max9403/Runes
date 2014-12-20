@@ -10,6 +10,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.lwjgl.Sys;
 
 /**
  * Created by Benjamin on 2014-12-15.
@@ -96,6 +97,7 @@ public class RuneTileEntity extends TileEntity{
                 return;
             }
             counter = 0;
+
             if (current > size * 4 - 1) {
                 current = 0;
             }
@@ -120,22 +122,31 @@ public class RuneTileEntity extends TileEntity{
             }
 
             try {
-                MainMod.RUNES.get(((RuneTileEntity) worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
+                if(worldObj.getTileEntity(linkX, linkY, linkZ) instanceof RuneiumStorage) {
+                    if(((RuneiumStorage)worldObj.getTileEntity(linkX, linkY, linkZ)).discharge(MainMod.RUNES.get(((RuneTileEntity) worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).getCost())) {
+                        worldObj.getTileEntity(linkX, linkY, linkZ).markDirty();
+                        worldObj.markBlockForUpdate(linkX, linkY, linkZ);
+                        MainMod.RUNES.get(((RuneTileEntity) worldObj.getTileEntity(xCoord + xChange, yCoord, zCoord + zChange)).runeType).runeTick(worldObj, xCoord + xChange, yCoord, zCoord + zChange, xCoord, yCoord, zCoord, size);
+                        Minecraft.getMinecraft().effectRenderer.addEffect(new RuneActivationParticle(worldObj, xCoord + xChange + 0.5D, yCoord, zCoord + zChange + 0.5D, 0.0D, 0.0D, 0.0D));
+                        current++;
+                    }
+                }
+
             } catch (Exception ex) {
                 controller = false;
                 active = false;
             }
 
-            Minecraft.getMinecraft().effectRenderer.addEffect(new RuneActivationParticle(worldObj, xCoord + xChange + 0.5D, yCoord, zCoord + zChange + 0.5D, 0.0D, 0.0D, 0.0D));
-            current++;
         }
     }
 
-    public void attemptEnergyLink(int x, int y, int z) {
+    public boolean attemptEnergyLink(int x, int y, int z) {
         if(worldObj.getTileEntity(x, y, z) instanceof RuneiumStorage) {
             linkX = x;
             linkY = y;
             linkZ = z;
+            return true;
         }
+        return false;
     }
 }

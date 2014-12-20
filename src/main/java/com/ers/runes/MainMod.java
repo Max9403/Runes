@@ -74,8 +74,13 @@ public class MainMod {
             public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
                 List entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y - 1, z, x + size, 255, z + size));
                 for(Object entity : entities) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 20, 0));
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 40, 0));
                 }
+            }
+
+            @Override
+            public int getCost() {
+                return 10;
             }
         });
         RUNES.add(new CodeRune("Harm", "harm", new ResourceLocation(MODID + ":textures/blocks/harm.png")));
