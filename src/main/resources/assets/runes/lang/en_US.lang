@@ -1,3 +1,5 @@
 item.runeChisel.name=Rune Chisel
 item.runeGrimoire.name=Grimoire
 tile.rune.name=Rune
+achievement.runeStart=Start of runes
+achievement.runeStart.desc=With the start of rune creation

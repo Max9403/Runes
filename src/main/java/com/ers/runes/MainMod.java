@@ -33,6 +33,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -47,7 +48,10 @@ public class MainMod {
     public static final String MODID = "runes";
     public static final String NAME = "Runes";
     public static final String VERSION = "1.0.0";
+
     public static Achievement runeStart;
+    public static AchievementPage runePage;
+
     public static final CreativeTabs runeTab = new RuneCreativeTab(MainMod.MODID);
 
     @Mod.Instance("runes")
@@ -111,7 +115,9 @@ public class MainMod {
         GameRegistry.addRecipe(new ItemStack(chisel), "#", "#", "$", '#', Items.iron_ingot, '$', Items.stick);
         GameRegistry.addRecipe(new ItemStack(grimoire), "#@^", "#@%", "#@^", '#', Items.string, '@', Items.book, '^', Items.leather, '%', Items.paper);
         ClientRegistry.bindTileEntitySpecialRenderer(RuneTileEntity.class, new RuneTileRenderer());
-        runeStart = new Achievement("runesStart", "runeStart", 1, -2, chisel, null).registerStat();
+        runeStart = new Achievement("runesStart", "runeStart", 1, -2, chisel, null);
+        runePage = new AchievementPage("Runes", runeStart);
+        AchievementPage.registerAchievementPage(runePage);
         final RuneEventHandler darkEventHandler = new RuneEventHandler();
         MinecraftForge.EVENT_BUS.register(darkEventHandler);
         FMLCommonHandler.instance().bus().register(darkEventHandler);
