@@ -2,18 +2,19 @@ package com.ers.runes;
 
 import com.ers.runes.Items.Grimoire;
 import com.ers.runes.Items.RuneChisel;
-import com.ers.runes.Items.RuneItem;
 import com.ers.runes.blocks.Rune;
 import com.ers.runes.blocks.RuneiumPlayerChunk;
 import com.ers.runes.extras.RuneCreativeTab;
 import com.ers.runes.tileentities.RuneTileEntity;
-import com.ers.runes.tileentities.RuneiumGeneratorTileEntity;
 import com.ers.runes.tileentities.RuneiumPlayerChunkTileEntity;
 import com.ers.runes.tileentities.renders.RuneTileRenderer;
 import com.ers.runes.utilities.CodeRune;
+import com.ers.runes.utilities.RuneEventHandler;
 import com.ers.runes.utilities.RuneWrapper;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -22,21 +23,21 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Logger;
 
 /**
  * Created by Benjamin on 2014-12-12.
@@ -46,6 +47,7 @@ public class MainMod {
     public static final String MODID = "runes";
     public static final String NAME = "Runes";
     public static final String VERSION = "1.0.0";
+    public static Achievement runeStart;
     public static final CreativeTabs runeTab = new RuneCreativeTab(MainMod.MODID);
 
     @Mod.Instance("runes")
@@ -73,7 +75,7 @@ public class MainMod {
             @Override
             public void runeTick(World world, int runeX, int runeY, int runeZ, int x, int y, int z, int size) {
                 List entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y - 1, z, x + size, 255, z + size));
-                for(Object entity : entities) {
+                for (Object entity : entities) {
                     ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 40, 0));
                 }
             }
@@ -106,8 +108,19 @@ public class MainMod {
         GameRegistry.registerItem(grimoire, "runeGrimoire");
         GameRegistry.registerTileEntity(RuneTileEntity.class, "Rune Tile Entity");
         GameRegistry.registerTileEntity(RuneiumPlayerChunkTileEntity.class, "Runeium Generator Tile Entity");
+        GameRegistry.addRecipe(new ItemStack(chisel), "#", "#", "$", '#', Items.iron_ingot, '$', Items.stick);
+        GameRegistry.addRecipe(new ItemStack(grimoire), "#@^", "#@%", "#@^", '#', Items.string, '@', Items.book, '^', Items.leather, '%', Items.paper);
         ClientRegistry.bindTileEntitySpecialRenderer(RuneTileEntity.class, new RuneTileRenderer());
-        FMLInterModComms.sendMessage("Waila", "register", "com.ers.runes.utilities.WailaProvider.wailaCallback");
+        runeStart = new Achievement("runesStart", "runeStart", 1, -2, chisel, null).registerStat();
+        final RuneEventHandler darkEventHandler = new RuneEventHandler();
+        MinecraftForge.EVENT_BUS.register(darkEventHandler);
+        FMLCommonHandler.instance().bus().register(darkEventHandler);
+        if (Loader.isModLoaded("ForgeMicroblock")) {
+            //FMLInterModComms.sendMessage("ForgeMicroblock", "microMaterial", new ItemStack(rune));
+        }
+        if (Loader.isModLoaded("Waila")) {
+            FMLInterModComms.sendMessage("Waila", "register", "com.ers.runes.utilities.WailaProvider.wailaCallback");
+        }
     }
 
     @Mod.EventHandler
